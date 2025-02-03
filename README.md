@@ -72,7 +72,7 @@ pnpm add license-checker-rseidelsohn uglify-js json5 --dev
 
 </details>
 
-此时执行 `npm run build-oss-licenses-dist` 命令，则会在微信小程序工程根目录生成 `OSSLicensesDist.js` 文件。文件由 `module.exports` 语句导出为 JS 对象。
+此时执行 `npm run build-oss-licenses-dist` 命令，则会在微信小程序工程根目录生成 `OSSLicensesDist.js` 文件。开放源代码许可信息由 `module.exports` 语句导出为 JS 对象。
 
 如果您希望将 `OSSLicensesDist.js` 文件放在具体 Page 页或其他自定义目录，请在 `OSSLicensesBuilderConfig.json5` 文件中修改 `customPath` 属性，如：
 
