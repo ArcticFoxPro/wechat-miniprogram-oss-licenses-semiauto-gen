@@ -23,18 +23,21 @@
 
 在原生微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录）中打开终端，安装 `license-checker-rseidelsohn`、`uglify-js` 和 `json5` 依赖
 
+> npm
+
 ```shell
-# npm
 npm install license-checker-rseidelsohn uglify-js json5 --save-dev
 ```
 
+> yarn
+
 ```shell
-# yarn
 yarn add license-checker-rseidelsohn uglify-js json5 --dev
 ```
 
+> pnpm
+
 ```shell
-# pnpm
 pnpm add license-checker-rseidelsohn uglify-js json5 --dev
 ```
 
@@ -42,7 +45,13 @@ pnpm add license-checker-rseidelsohn uglify-js json5 --dev
 
 ### 1. 配置许可证构建脚本
 
-将 [OSSLicensesBuilder.js](source-code/OSSLicensesBuilder.js)、[OSSLicensesBuilderConfig.json5](source-code/OSSLicensesBuilderConfig.json5) 和 [OSSLicensesBuildFormat.json](source-code/OSSLicensesBuildFormat.json) 文件复制并粘贴至微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录），并在根目录 `package.json` 新增：
+将 [OSSLicensesBuilder.js](source-code/OSSLicensesBuilder.js)、[OSSLicensesBuilderConfig.json5](source-code/OSSLicensesBuilderConfig.json5) 和 [OSSLicensesBuildFormat.json](source-code/OSSLicensesBuildFormat.json) 文件复制并粘贴至微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录），并执行命令：
+
+```shell
+npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
+```
+
+或直接在根目录 `package.json` 新增：
 
 ```json
 {
