@@ -23,18 +23,18 @@
 
 首先需确保本地存在 Node.js 和 npm 环境。若还未安装，请前往 [Node.js](https://nodejs.org/zh-cn/download/) 官网指导进行安装，这里不再赘述。下文假定您已安装 Node.js 和 npm。
 
-在原生微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录）中打开终端，安装 `license-checker-rseidelsohn`、`uglify-js` 和 `json5` 依赖
+在原生微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录）中打开终端，安装 `license-checker-rseidelsohn`、`shelljs`、`uglify-js` 和 `json5` 依赖
 
 > npm
 
 ```shell
-npm install license-checker-rseidelsohn uglify-js json5 --save-dev
+npm install license-checker-rseidelsohn shelljs uglify-js json5 --save-dev
 ```
 
 > yarn
 
 ```shell
-yarn add license-checker-rseidelsohn uglify-js json5 --dev
+yarn add license-checker-rseidelsohn shelljs uglify-js json5 --dev
 ```
 
 > pnpm
@@ -47,7 +47,7 @@ pnpm add license-checker-rseidelsohn uglify-js json5 --dev
 
 ### 1. 配置许可证构建脚本
 
-将 [OSSLicensesBuilder.js](source-code/OSSLicensesBuilder.js)、[OSSLicensesBuilderConfig.json5](source-code/OSSLicensesBuilderConfig.json5) 和 [OSSLicensesBuildFormat.json](source-code/OSSLicensesBuildFormat.json) 文件复制并粘贴至微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录），并执行命令：
+将 [`OSSLicensesBuilder.js`](source-code/OSSLicensesBuilder.js)、[`OSSLicensesBuilderConfig.json5`](source-code/OSSLicensesBuilderConfig.json5) 和 [`OSSLicensesBuildFormat.json`](source-code/OSSLicensesBuildFormat.json) 文件下载并移动至微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录），并执行命令：
 
 ```shell
 npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
@@ -83,7 +83,13 @@ npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
 
 </details>
 
-此时执行 `npm run build-oss-licenses-dist` 命令，则会在微信小程序工程根目录生成 `OSSLicensesDist.js` 文件。开放源代码许可信息由 `module.exports` 语句导出为 JS 对象。
+此时执行
+
+```shell
+npm run build-oss-licenses-dist
+```
+
+命令，则会在微信小程序工程根目录生成 `OSSLicensesDist.js` 文件。开放源代码许可信息由 `module.exports` 语句导出为 JS 对象。
 
 如果您希望将 `OSSLicensesDist.js` 文件放在具体 Page 页或其他自定义目录，请在 `OSSLicensesBuilderConfig.json5` 文件中修改 `customPath` 属性，如：
 
@@ -92,7 +98,7 @@ npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
   {
     outputFile: "OSSLicensesDist",
     customFormat: "OSSLicensesBuildFormat.json",
-    customPath: "/this-is-my-goal-page/my-assets/"
+    customPath: "/this-is-my-goal-page/my-assets/",
   }
 ]
 ```
@@ -152,9 +158,9 @@ npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
 有效属性为：
 
 - `copyright`：版权声明信息，如 “Copyright (c) 年份 作者名 作者连接”
-- `description`：依赖项描述
+- `description`：描述
 - `email`：邮箱
-- `licenseFile`：在本地计算机中，此依赖项开源许可文件所在的本地路径字符串，不建议生成此项。
+- `licenseFile`：此依赖项在本地计算机中的开源许可文件所在的本地路径字符串。由于对用户端来说本地路径没有什么实质作用，且考虑到微信小程序文件总大小限制，不建议生成此项。
 - `licenseModified`
 - `licenses`：开源许可名称
 - `licenseText`：开源许可全文
@@ -164,7 +170,74 @@ npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
 - `url`：依赖项地址，大多数情况下此项为空
 - `version`：依赖项的语义版本号
 
-
 </details>
 
 ### 2. 配置 GitHub Actions 工作流
+
+在 GitHub 仓库根目录新建 `.github` 目录，打开 `.github` 目录后，新增 `workflows` 目录。
+
+将 [update-oss-licenses-dist.yml](/source-code/update-oss-licenses-dist.yml) 下载并移动至 `.github/workflows` 目录。
+
+下载的 `update-oss-licenses-dist.yml` 默认采用 `windows-latest` 为工作流运行环境：
+
+```yaml
+jobs:
+  update-oss-licenses-dist:
+    strategy:
+      matrix:
+        os: [ windows-latest ] # 请根据您的微信小程序开发环境配置相应（如 `macos-latest`、`ubuntu-latest` 等），因为部分 npm 包在不同系统环境下分发的包不一致
+    runs-on: ${{ matrix.os }}
+```
+
+由于部分 npm 包在不同系统环境下分发的包不一致，请根据您的实际情况修改 `update-oss-licenses-dist.yml` 文件。例如：
+
+- 如果您的微信小程序使用 [`miniprogram-ci`](https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html) 构建，请根据构建服务器选择运行环境。例如假设 `miniprogram-ci` 在 Linux 系统下工作，请将 `matrix`.`os` 改为 `ubuntu-latest`。
+- 如果您在 Windows 上使用微信开发者工具构建与上传，请将 `matrix`.`os` 改为 `windows-latest`。
+- 如果您在 macOS 上使用微信开发者工具构建与上传，请将 `matrix`.`os` 改为 `macos-latest`。
+
+将包含 `.github/workflows/update-oss-licenses-dist.yml` 的提交推送至 GitHub 仓库后，默认情况下，此工作流会自动在每次提交后运行。如果工作流内生成的开源许可信息文件与仓库原有的开源许可信息文件不一致，则此工作流会将新的 OSS Licenses Dist 文件生成一个 Pull Request。
+
+### 3. 在微信小程序中使用并展示开源许可信息
+
+由于生成的开源许可信息 JavaScript 文件已经由 `module.exports` 导出为 JS 对象，因此您可以在微信小程序中直接引用此文件。例如：
+
+```JavaScript
+// 假设这是 pages/oss-licenses-menu/oss-licenses-menu.js
+const ossLicensesDist = require('../../OSSLicensesDist.js')
+console.log(ossLicensesDist)
+
+this.setData({
+    ossLicensesDist: ossLicensesDist
+})
+```
+
+```WXML
+<!-- 假设这是 pages/oss-licenses-menu/oss-licenses-menu.wxml -->
+<!-- 假设项目引入了 TDesign 微信小程序组件库，并引入了其中的 `t-cell` 和 `t-tag` 组件 -->
+<!-- 为方便展示样式表，这里假设项目引入了 UnoCSS。具体样式声明可在下列元素的 class 中查看 -->
+<t-cell arrow data-index="{{index}}" description="{{item.description}}" hover wx:for="{{ossLicensesDist}}"
+        wx:key="index">
+    <view slot="title">
+        <text class="text-32rpx inline">{{item.name + (item.publisher !== '' ? (' (' + item.publisher + ')') : '')}}</text>
+        <t-tag class="ml-16rpx inline-block vertical-bottom" size="small" theme="default" variant="light">
+            {{'v' + item.version}}
+        </t-tag>
+    </view>
+    <t-tag class="ml-16rpx" size="medium" slot="note" theme="primary" variant="light">
+        {{item.licenses}}
+    </t-tag>
+</t-cell>
+```
+
+## 开源相关
+
+感谢以下开源项目的作者和贡献者：
+
+- [NPM License Checker（Roman Seidelsohn）](https://github.com/RSeidelsohn/license-checker-rseidelsohn)，Licensed under [BSD 3-Clause License](https://github.com/RSeidelsohn/license-checker-rseidelsohn/blob/master/LICENSE)
+- [ShellJS](https://github.com/shelljs/shelljs)，Licensed under [BSD 3-Clause License](https://github.com/shelljs/shelljs/blob/master/LICENSE)
+- [UglifyJS](https://github.com/mishoo/UglifyJS)，Licensed under [BSD License](https://github.com/mishoo/UglifyJS/blob/master/LICENSE)
+- [JSON5](https://json5.org/)，Licensed under [MIT License](https://json5.org/LICENSE.md)
+- [TDesign WeChat MiniProgram（Tencent）](https://github.com/Tencent/tdesign-miniprogram)，Licensed under [MIT License](https://github.com/Tencent/tdesign-miniprogram/blob/develop/LICENSE)
+- [Node.js®（OpenJS Foundation）](https://nodejs.org/)，Licensed under [MIT License](https://github.com/nodejs/node/blob/main/LICENSE)
+- [npm](https://www.npmjs.com/)，Licensed under [Artistic License 2.0](https://github.com/npm/cli/blob/latest/LICENSE)
+- [UnoCSS](https://unocss.dev/)，Licensed under [MIT License](https://github.com/unocss/unocss/blob/main/LICENSE)

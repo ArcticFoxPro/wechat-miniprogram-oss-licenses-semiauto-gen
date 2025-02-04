@@ -19,7 +19,7 @@ jobs:
   update-oss-licenses-dist:
     strategy:
       matrix:
-        os: [ windows-latest ] # 请根据您的微信小程序开发环境配置相应系统（如 `macos-latest`、`ubuntu-latest` 等），因为部分 npm 包在不同系统环境下分发的包名不一致
+        os: [ windows-latest ] # 请根据您的微信小程序开发环境配置相应运行环境（如 `macos-latest`、`ubuntu-latest` 等），因为部分 npm 包在不同系统环境下分发的包不一致
     runs-on: ${{ matrix.os }}
     permissions:
       contents: write
