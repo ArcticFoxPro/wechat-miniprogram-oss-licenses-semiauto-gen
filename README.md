@@ -70,7 +70,7 @@ npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
 
 <details>
 
-<summary>package.json 完整示例</summary>
+<summary>`package.json` 完整示例</summary>
 
 ```json
 {
@@ -181,7 +181,7 @@ npm run build-oss-licenses-dist
 
 在 GitHub 仓库根目录新建 `.github` 目录，打开 `.github` 目录后，新增 `workflows` 目录。
 
-将 [update-oss-licenses-dist.yml](/source-code/update-oss-licenses-dist.yml) 下载并移动至 `.github/workflows` 目录。
+将 [`update-oss-licenses-dist.yml`](/source-code/update-oss-licenses-dist.yml) 下载并移动至 `.github/workflows` 目录。
 
 下载的 `update-oss-licenses-dist.yml` 默认采用 `windows-latest` 为工作流运行环境：
 
