@@ -208,7 +208,10 @@ jobs:
 
 ```JavaScript
 // 假设这是 pages/oss-licenses-menu/oss-licenses-menu.js
+
+// 如果存在分包，需要多次引入相关对象，这里不再赘述
 const ossLicensesDist = require('../../OSSLicensesDist.js')
+
 console.log(ossLicensesDist)
 
 this.setData({
@@ -220,6 +223,7 @@ this.setData({
 <!-- 假设这是 pages/oss-licenses-menu/oss-licenses-menu.wxml -->
 <!-- 假设项目引入了 TDesign 微信小程序组件库，并引入了其中的 `t-cell` 和 `t-tag` 组件 -->
 <!-- 为方便展示样式表，这里假设项目引入了 UnoCSS。具体样式声明可在下列元素的 class 中查看 -->
+
 <t-cell arrow data-index="{{index}}" description="{{item.description}}" hover wx:for="{{ossLicensesDist}}"
         wx:key="index">
     <view slot="title">
@@ -236,7 +240,7 @@ this.setData({
 
 ## 开源相关
 
-感谢以下开源项目的作者和贡献者：
+此仓库的诞生离不开以下开源项目，感谢以下开源项目的作者和贡献者：
 
 - [NPM License Checker（Roman Seidelsohn）](https://github.com/RSeidelsohn/license-checker-rseidelsohn)，Licensed under [BSD 3-Clause License](https://github.com/RSeidelsohn/license-checker-rseidelsohn/blob/master/LICENSE)
 - [ShellJS](https://github.com/shelljs/shelljs)，Licensed under [BSD 3-Clause License](https://github.com/shelljs/shelljs/blob/master/LICENSE)
