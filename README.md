@@ -212,10 +212,22 @@ jobs:
 // 如果存在分包，需要多次引入相关对象，这里不再赘述
 const ossLicensesDist = require('../../OSSLicensesDist.js')
 
-console.log(ossLicensesDist)
+// 以 `Page()` 页面构造器为例
+Page({
+    data: {},
+    onLoad(options) {
+        console.log(ossLicensesDist)
 
-this.setData({
-    ossLicensesDist: ossLicensesDist
+        // 由对应页面 WXML 属性绑定此数据并向用户端展示信息
+        this.setData({
+            ossLicensesDist: ossLicensesDist
+        })
+    }, licenseDistClick(e) {
+        // 点击开源许可信息项，跳转到对应开源许可信息页面。对应开源许可信息页面的具体写法此文档不再赘述。
+        wx.navigateTo({
+            url: '/pages/oss-licenses/oss-licenses?index=' + e.currentTarget.dataset.index,
+        })
+    }
 })
 ```
 
@@ -224,14 +236,18 @@ this.setData({
 <!-- 假设项目引入了 TDesign 微信小程序组件库，并引入了其中的 `t-cell` 和 `t-tag` 组件 -->
 <!-- 为方便展示样式表，这里假设项目引入了 UnoCSS。具体样式声明可在下列元素的 class 中查看 -->
 
-<t-cell arrow data-index="{{index}}" description="{{item.description}}" hover wx:for="{{ossLicensesDist}}"
-        wx:key="index">
+<t-cell arrow bind:tap="licenseDistClick" data-index="{{index}}" description="{{item.description}}" hover
+        wx:for="{{ossLicensesDist}}" wx:key="index">
     <view slot="title">
         <text class="text-32rpx inline">{{item.name + (item.publisher !== '' ? (' (' + item.publisher + ')') : '')}}</text>
+        
+        <!-- 依赖项语义版本号。展示版本号以防止因部分依赖项在项目迭代过程存在开源许可变更导致的同项目许可混淆 -->
         <t-tag class="ml-16rpx inline-block vertical-bottom" size="small" theme="default" variant="light">
             {{'v' + item.version}}
         </t-tag>
     </view>
+    
+    <!-- 依赖项开源许可名称 -->
     <t-tag class="ml-16rpx" size="medium" slot="note" theme="primary" variant="light">
         {{item.licenses}}
     </t-tag>
