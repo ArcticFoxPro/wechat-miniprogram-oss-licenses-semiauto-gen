@@ -235,7 +235,7 @@ Page({
 })
 ```
 
-```WXML
+```html
 <!-- 假设这是 pages/oss-licenses-menu/oss-licenses-menu.wxml -->
 <!-- 假设项目引入了 TDesign 微信小程序组件库，并引入了其中的 `t-cell` 和 `t-tag` 组件 -->
 <!-- 为方便展示样式表，这里假设项目引入了 UnoCSS。具体样式声明可在下列元素的 class 中查看 -->
