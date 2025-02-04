@@ -32,19 +32,19 @@
 
 > npm
 
-```shell
+```sh
 npm install license-checker-rseidelsohn shelljs uglify-js json5 --save-dev
 ```
 
 > yarn
 
-```shell
+```sh
 yarn add license-checker-rseidelsohn shelljs uglify-js json5 --dev
 ```
 
 > pnpm
 
-```shell
+```sh
 pnpm add license-checker-rseidelsohn uglify-js json5 --dev
 ```
 
@@ -54,7 +54,7 @@ pnpm add license-checker-rseidelsohn uglify-js json5 --dev
 
 将 [`OSSLicensesBuilder.js`](source-code/OSSLicensesBuilder.js)、[`OSSLicensesBuilderConfig.json5`](source-code/OSSLicensesBuilderConfig.json5) 和 [`OSSLicensesBuildFormat.json`](source-code/OSSLicensesBuildFormat.json) 文件下载并移动至微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录），并执行命令：
 
-```shell
+```sh
 npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
 ```
 
@@ -94,7 +94,7 @@ npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
 
 此时执行
 
-```shell
+```sh
 npm run build-oss-licenses-dist
 ```
 
