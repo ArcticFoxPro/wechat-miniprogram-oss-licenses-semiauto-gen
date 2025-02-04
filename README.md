@@ -70,7 +70,11 @@ npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
 
 <details>
 
-<summary>`package.json` 完整示例</summary>
+<summary>
+
+`package.json` 完整示例
+
+</summary>
 
 ```json
 {
