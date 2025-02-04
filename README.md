@@ -26,7 +26,7 @@
 
 ## 依赖需求
 
-首先需确保本地存在 Node.js 和 npm 环境。若还未安装，请前往 [Node.js](https://nodejs.org/zh-cn/download/) 官网指导进行安装，这里不再赘述。下文假定您已安装 Node.js 和 npm。
+首先需确保本地存在 Node.js 和 npm 环境。若还未安装，请前往 [Node.js](https://nodejs.org/zh-cn/download/) 官网按指导进行安装，这里不再赘述。下文假定您已安装 Node.js 和 npm。
 
 在原生微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录）中打开终端，安装 `license-checker-rseidelsohn`、`shelljs`、`uglify-js` 和 `json5` 依赖
 
