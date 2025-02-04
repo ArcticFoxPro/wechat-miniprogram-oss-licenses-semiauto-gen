@@ -2,8 +2,13 @@
 
 在托管至 GitHub 的原生微信小程序工程上实现对 npm 依赖库的开放源代码许可证信息半自动化生成
 
-> [!warning]
-> 文档没写完
+![WeChat-MiniProgram-OSS-Licenses-SemiAuto-Gen-Banner](readme-assets/WeChat-MiniProgram-OSS-Licenses-SemiAuto-Gen.png)
+
+<div align="center">
+
+[![Sourcery](https://img.shields.io/badge/Sourcery-enabled-brightgreen)](https://sourcery.ai)
+
+</div>
 
 <details>
 
