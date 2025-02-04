@@ -1,0 +1,78 @@
+#    Copyright (c) 2025 ArcticFoxPro
+#    WeChat MiniProgram OSS Licenses Semi-Auto Gen is licensed under Mulan PSL v2.
+#    You can use this software according to the terms and conditions of the Mulan PSL v2.
+#    You may obtain a copy of Mulan PSL v2 at:
+#             http://license.coscl.org.cn/MulanPSL2
+#    THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+#    EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+#    MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+#    See the Mulan PSL v2 for more details.
+
+name: Update OSS Licenses Dist
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-oss-licenses-dist:
+    strategy:
+      matrix:
+        os: [ windows-latest ] # 请根据您的微信小程序开发环境配置相应系统（如 `macos-latest`、`ubuntu-latest` 等），因为部分 npm 包在不同系统环境下分发的包名不一致
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+      pull-requests: write
+    defaults:
+      run:
+        working-directory: source
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'latest'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build OSS Licenses Dist
+        run: yarn run build-oss-licenses-dist
+
+      - name: Fetch latest changes from remote
+        run: git fetch origin main
+
+      - name: Compare files (Windows)
+        if: matrix.os == 'windows-latest' || matrix.os == 'windows-2019' || matrix.os == 'windows-2022'
+        id: compare-files-windows
+        run: |
+          if ! git diff --exit-code origin/main; then
+            echo "files_changed=true" >> $GITHUB_ENV
+          else
+            echo "files_changed=false" >> $GITHUB_ENV
+          fi
+        shell: bash
+
+      - name: Compare files
+        if: matrix.os != 'windows-latest' && matrix.os != 'windows-2019' && matrix.os != 'windows-2022'
+        id: compare-files
+        run: |
+          if ! git diff --exit-code origin/main; then
+            echo "files_changed=true" >> $GITHUB_ENV
+          else
+            echo "files_changed=false" >> $GITHUB_ENV
+          fi
+
+      - name: Create Pull Request
+        if: env.files_changed == 'true'
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: '更新开放源代码许可信息文件'
+          body: '自动化更新 npm 依赖项的开放源代码许可信息文件'
+          branch: 'update-licenses'
+          commit-message: 'Update OSS Licenses Dist'
+          labels: 'auto-generated'
