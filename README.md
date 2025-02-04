@@ -45,7 +45,7 @@ yarn add license-checker-rseidelsohn shelljs uglify-js json5 --dev
 > pnpm
 
 ```sh
-pnpm add license-checker-rseidelsohn uglify-js json5 --dev
+pnpm add license-checker-rseidelsohn shelljs uglify-js json5 --dev
 ```
 
 ## 快速开始
