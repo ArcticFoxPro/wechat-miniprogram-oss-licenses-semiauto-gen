@@ -36,7 +36,7 @@
 npm install license-checker-rseidelsohn shelljs uglify-js json5 --save-dev
 ```
 
-> yarn
+> Yarn
 
 ```sh
 yarn add license-checker-rseidelsohn shelljs uglify-js json5 --dev
