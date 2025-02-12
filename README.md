@@ -99,7 +99,13 @@ npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
 npm run build-oss-licenses-dist
 ```
 
-命令，则会在微信小程序工程根目录生成 `OSSLicensesDist.js` 文件。开放源代码许可信息由 `module.exports` 语句导出为 JS 对象。
+命令，则会在微信小程序工程根目录生成 `OSSLicensesDist.js` 和 `OSSLicensesDistText.js` 文件。开放源代码许可信息由 `module.exports` 语句导出为 JS 对象。
+
+为缩减文件大小，防止文件内存在过多重复的许可证文本，脚本将生成两个文件：
+- `OSSLicensesDist.js`：包含所有依赖项许可证信息的 JavaScript 文件
+- `OSSLicensesDistText.js`：包含所有许可证文本的 JavaScript 文件
+
+`OSSLicensesDist.js` 中的子项将存在 `licenseTextHash` 字段，该字段的值为许可证文本的 SHA256 杂凑值，可在 `OSSLicensesDistText.js` 中作为键找到。
 
 如果您希望将 `OSSLicensesDist.js` 文件放在具体 Page 页或其他自定义目录，请在 `OSSLicensesBuilderConfig.json5` 文件中修改 `customPath` 属性，如：
 
@@ -137,7 +143,7 @@ npm run build-oss-licenses-dist
 ]
 ```
 
-此时执行 `npm run build-oss-licenses-dist` 命令，则会在微信小程序工程根目录生成 `OSSLicensesDist.js`、`OSSLicensesDistSub1.js` 和 `OSSLicensesDistSub2.js` 文件。可按需使用。
+此时执行 `npm run build-oss-licenses-dist` 命令，则会在微信小程序工程根目录生成 `OSSLicensesDist.js`、`OSSLicensesDistText.js`、`OSSLicensesDistSub1.js`、`OSSLicensesDistSub1Text.js`、`OSSLicensesDistSub2.js` 和 `OSSLicensesDistSub2Text.js` 文件。可按需使用。
 
 <details>
 
@@ -173,7 +179,7 @@ npm run build-oss-licenses-dist
 - `licenseFile`：此依赖项在本地计算机中的开源许可文件所在的本地路径字符串。由于对用户端来说本地路径没有什么实质作用，且考虑到微信小程序文件总大小限制，不建议生成此项。
 - `licenseModified`
 - `licenses`：开源许可名称
-- `licenseText`：开源许可全文
+- `licenseText`：开源许可全文。为缩减文件大小，防止文件内存在过多重复的许可证文本，脚本会将此字段改为 `licenseTextHash` 字段，该字段的值为许可证文本的 SHA256 杂凑值，可在 `OSSLicensesDistText.js` 中作为键找到。
 - `name`：依赖项名称
 - `publisher`：依赖项发布者
 - `repository`：开源仓库地址
@@ -232,6 +238,10 @@ Page({
         wx.navigateTo({
             url: '/pages/oss-licenses/oss-licenses?index=' + e.currentTarget.dataset.index,
         })
+        // **提醒**：
+        // 如需展示许可证全文文本，请在常量 `ossLicensesDist` 找到该项的 `licenseTextHash` 字段的值，
+        // 然后引入 `OSSLicensesDistText.js`，
+        // 将上述 `licenseTextHash` 的值作为键在 `OSSLicensesDistText.js` 中找到此键的值，值即为许可证文本。
     }
 })
 ```
