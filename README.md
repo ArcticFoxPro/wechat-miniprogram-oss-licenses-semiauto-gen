@@ -177,6 +177,7 @@ npm run build-oss-licenses-dist
 - `description`：描述
 - `email`：邮箱
 - `licenseFile`：此依赖项在本地计算机中的开源许可文件所在的本地路径字符串。由于对用户端来说本地路径没有什么实质作用，且考虑到微信小程序文件总大小限制，不建议生成此项。
+- `path`：同上，不建议生成此项。
 - `licenseModified`
 - `licenses`：开源许可名称
 - `licenseText`：开源许可全文。为缩减文件大小，防止文件内存在过多重复的许可证文本，脚本会将此字段改为 `licenseTextHash` 字段，该字段的值为许可证文本的 SHA256 杂凑值，可在 `OSSLicensesDistText.js` 中作为键找到。
@@ -211,7 +212,7 @@ jobs:
 - 如果您在 Windows 上使用微信开发者工具构建与上传，请将 `matrix`.`os` 改为 `windows-latest`。
 - 如果您在 macOS 上使用微信开发者工具构建与上传，请将 `matrix`.`os` 改为 `macos-latest`。
 
-将包含 `.github/workflows/update-oss-licenses-dist.yml` 的提交推送至 GitHub 仓库后，默认情况下，此工作流会自动在每次提交后运行。如果工作流内生成的开源许可信息文件与仓库原有的开源许可信息文件不一致，则此工作流会将新的 OSS Licenses Dist 文件生成一个 Pull Request。
+将包含 `.github/workflows/update-oss-licenses-dist.yml` 的提交推送至 GitHub 仓库后，默认情况下，此工作流会自动在每次提交后运行。如果工作流内生成的开源许可信息文件与仓库原有的开源许可信息文件不一致，则此工作流会将新的开放源代码许可信息文件生成一个 Pull Request。
 
 ### 3. 在微信小程序中使用并展示开源许可信息
 
