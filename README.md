@@ -83,6 +83,7 @@ npm pkg set scripts.build-oss-licenses-dist="node OSSLicensesBuilder.js"
     "license-checker-rseidelsohn": "^4.4.2",
     "json5": "^2.2.3",
     "shelljs": "^0.8.5",
+    "spdx-license-list": "^6.9.0",
     "uglify-js": "^3.19.3"
   }, 
   "scripts": {
