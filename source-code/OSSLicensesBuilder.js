@@ -28,6 +28,7 @@ const path = require('path');
 const crypto = require('crypto');
 const uglifyJS = require('uglify-js');
 const JSON5 = require('json5');
+const spdx = require('spdx-license-list');
 
 function runCommand(command, args) {
     try {
@@ -74,6 +75,9 @@ function buildLicenses(outputFile, customFormat, customPath, startPath = '') {
                 delete jsonDataWithoutLicenseText[key].licenseText;
                 jsonDataWithoutLicenseText[key].licenseTextHash = sha256Hash;
             } else jsonDataWithoutLicenseText[key].licenseTextHash = "";
+            const spdxId = value.licenses
+            const spdxItem = spdx[spdxId]
+            jsonDataWithoutLicenseText[key].licenseName = (spdxItem) ? spdxItem.name : spdxId
         }
         const jsContentWithoutLicenseText = `module.exports = ${JSON5.stringify(jsonDataWithoutLicenseText, null, 2)};`;
         const minifiedResultWithoutLicenseText = uglifyJS.minify(jsContentWithoutLicenseText, {

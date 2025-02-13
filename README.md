@@ -28,24 +28,24 @@
 
 首先需确保本地存在 Node.js 和 npm 环境。若还未安装，请前往 [Node.js](https://nodejs.org/zh-cn/download/) 官网按指导进行安装，这里不再赘述。下文假定您已安装 Node.js 和 npm。
 
-在原生微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录）中打开终端，安装 `license-checker-rseidelsohn`、`shelljs`、`uglify-js` 和 `json5` 依赖
+在原生微信小程序工程根目录（即微信小程序 `project.config.json` 所在目录）中打开终端，安装 `license-checker-rseidelsohn`、`shelljs`、`uglify-js`、`json5` 和 `spdx-license-list` 依赖
 
 > npm
 
 ```sh
-npm install license-checker-rseidelsohn shelljs uglify-js json5 --save-dev
+npm install license-checker-rseidelsohn shelljs uglify-js json5 spdx-license-list --save-dev
 ```
 
 > Yarn
 
 ```sh
-yarn add license-checker-rseidelsohn shelljs uglify-js json5 --dev
+yarn add license-checker-rseidelsohn shelljs uglify-js json5 spdx-license-list --dev
 ```
 
 > pnpm
 
 ```sh
-pnpm add license-checker-rseidelsohn shelljs uglify-js json5 --dev
+pnpm add license-checker-rseidelsohn shelljs uglify-js json5 spdx-license-list --dev
 ```
 
 ## 快速开始
@@ -179,7 +179,7 @@ npm run build-oss-licenses-dist
 - `licenseFile`：此依赖项在本地计算机中的开源许可文件所在的本地路径字符串。由于对用户端来说本地路径没有什么实质作用，且考虑到微信小程序文件总大小限制，不建议生成此项。
 - `path`：同上，不建议生成此项。
 - `licenseModified`
-- `licenses`：开源许可名称
+- `licenses`：开源许可 SPDX ID。`OSSLicensesBuilder.js` 会根据 SPDX ID 一并生成 `licenseName` 字段，该字段的值为开源许可名称（SPDX Name）。
 - `licenseText`：开源许可全文。为缩减文件大小，防止文件内存在过多重复的许可证文本，脚本会将此字段改为 `licenseTextHash` 字段，该字段的值为许可证文本的 SHA256 杂凑值，可在 `OSSLicensesDistText.js` 中作为键找到。
 - `name`：依赖项名称
 - `publisher`：依赖项发布者
@@ -264,8 +264,9 @@ Page({
     </view>
     
     <!-- 依赖项开源许可名称 -->
-    <t-tag class="ml-16rpx" size="medium" slot="note" theme="primary" variant="light">
-        {{item.licenses}}
+    <!-- 如果需要界面展示更简短的名称（SPDX ID），可将 `item.licenseName` 改为 `item.licenses` -->
+    <t-tag class="mt-12rpx" size="medium" slot="description" theme="primary" variant="light">
+        {{item.licenseName}}
     </t-tag>
 </t-cell>
 ```
@@ -278,6 +279,7 @@ Page({
 - [ShellJS](https://github.com/shelljs/shelljs)，Licensed under [BSD 3-Clause License](https://github.com/shelljs/shelljs/blob/master/LICENSE)
 - [UglifyJS](https://github.com/mishoo/UglifyJS)，Licensed under [BSD License](https://github.com/mishoo/UglifyJS/blob/master/LICENSE)
 - [JSON5](https://json5.org/)，Licensed under [MIT License](https://json5.org/LICENSE.md)
+- [List of SPDX licenses（Sindre Sorhus）](https://github.com/sindresorhus/spdx-license-list)，Licensed under [CC0 1.0 Universal License](https://github.com/sindresorhus/spdx-license-list/blob/main/license)
 - [TDesign WeChat MiniProgram（Tencent）](https://github.com/Tencent/tdesign-miniprogram)，Licensed under [MIT License](https://github.com/Tencent/tdesign-miniprogram/blob/develop/LICENSE)
 - [Node.js®（OpenJS Foundation）](https://nodejs.org/)，Licensed under [MIT License](https://github.com/nodejs/node/blob/main/LICENSE)
 - [npm](https://www.npmjs.com/)，Licensed under [Artistic License 2.0](https://github.com/npm/cli/blob/latest/LICENSE)
