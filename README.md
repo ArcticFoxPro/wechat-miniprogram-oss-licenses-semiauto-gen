@@ -256,19 +256,23 @@ Page({
 <t-cell arrow bind:tap="licenseDistClick" data-index="{{index}}" description="{{item.description}}" hover
         wx:for="{{ossLicensesDist}}" wx:key="index">
     <view slot="title">
+
+        <!-- 依赖项名称与作者 -->
         <text class="text-32rpx inline">{{item.name + (item.publisher !== '' ? (' (' + item.publisher + ')') : '')}}</text>
-        
+    </view>
+    <view class="inline" slot="description">
+
         <!-- 依赖项语义版本号。展示版本号以防止因部分依赖项在项目迭代过程存在开源许可变更导致的同项目许可混淆 -->
-        <t-tag class="ml-16rpx inline-block vertical-bottom" size="small" theme="default" variant="light">
-            {{'v' + item.version}}
+        <t-tag class="mr-16rpx mt-12rpx inline-block" size="medium" theme="default" variant="light">
+            {{item.version}}
+        </t-tag>
+
+        <!-- 依赖项开源许可名称 -->
+        <!-- 如果需要界面展示更简短的名称（SPDX ID），可将 `item.licenseName` 改为 `item.licenses` -->
+        <t-tag class="mt-12rpx inline-block" size="medium" theme="primary" variant="light">
+            {{item.licenseName}}
         </t-tag>
     </view>
-    
-    <!-- 依赖项开源许可名称 -->
-    <!-- 如果需要界面展示更简短的名称（SPDX ID），可将 `item.licenseName` 改为 `item.licenses` -->
-    <t-tag class="mt-12rpx" size="medium" slot="description" theme="primary" variant="light">
-        {{item.licenseName}}
-    </t-tag>
 </t-cell>
 ```
 
