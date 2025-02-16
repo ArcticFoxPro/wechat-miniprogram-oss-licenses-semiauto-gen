@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MulanPSL-2.0
+
 /*
     Copyright (c) 2025 ArcticFoxPro
     WeChat MiniProgram OSS Licenses Semi-Auto Gen is licensed under Mulan PSL v2.

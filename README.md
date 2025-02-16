@@ -220,6 +220,8 @@ jobs:
 由于生成的开源许可信息 JavaScript 文件已经由 `module.exports` 导出为 JS 对象，因此您可以在微信小程序中直接引用此文件。例如：
 
 ```JavaScript
+// SPDX-License-Identifier: MulanPSL-2.0
+
 // 假设这是 pages/oss-licenses-menu/oss-licenses-menu.js
 
 // 如果存在分包，需要多次引入相关对象，这里不再赘述
@@ -249,6 +251,8 @@ Page({
 ```
 
 ```html
+<!-- SPDX-License-Identifier: MulanPSL-2.0 -->
+
 <!-- 假设这是 pages/oss-licenses-menu/oss-licenses-menu.wxml -->
 <!-- 假设项目引入了 TDesign 微信小程序组件库，并引入了其中的 `t-cell` 和 `t-tag` 组件 -->
 <!-- 为方便展示样式表，这里假设项目引入了 UnoCSS。具体样式声明可在下列元素的 class 中查看 -->
